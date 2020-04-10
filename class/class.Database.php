@@ -2,15 +2,28 @@
 
 namespace ProxmoxMigration\DB;
 
+/**
+ * Note: that this class is only using MySQL as database server
+ */
 class Database
 {
-    private $servername = 'localhost';
-    private $username = 'root';
-    private $password = 'P4ssword123**';
-    private $db = 'gittossuto_api';
+    private $db;
+    private $servername;
+    private $username;
+    private $password;
 
     const LOGDIR = './log';
     const LOGFILE = 'app.log';
+    const SUCCESS = 'success';
+    const ERROR = 'error';
+
+    public function __construct()
+    {
+        $this->db = getenv('DB_NAME');
+        $this->servername = getenv('DB_SERVERNAME');
+        $this->username = getenv('DB_USERNAME');
+        $this->password = getenv('DB_PASSWORD');
+    }
 
     /**
      * createConnection
@@ -46,12 +59,19 @@ class Database
      * 
      * query or selecting data
      * 
-     * @param string
-     * @return array
+     * @param string tablename
+     * @param string where clauses
+     * @param bool dev true|false
+     * @return array data as assoc array
      */
-    public function getQuery($table)
+    public function getQuery($table, $where = null, $dev = false)
     {
-        $sql = "SELECT * FROM $table";
+        if ($dev) {
+            $sql = "SELECT * FROM $table WHERE $where";
+        } else {
+            $sql = "SELECT * FROM $table";
+        }
+
         $result = $this->getConnection()->query($sql);
         
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -94,7 +114,7 @@ class Database
             // return status error
             return [
                 "status" => false,
-                "message" => "error",
+                "message" => self::ERROR,
             ];
 
         } else {
@@ -102,7 +122,7 @@ class Database
             // return status success
             return [
                 "status" => true,
-                "message" => "success",
+                "message" => self::SUCCESS,
             ];
         }
     }
