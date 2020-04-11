@@ -56,8 +56,11 @@ if (!$db->isConnectionError()) {
                      * Here in this example the script will export 2 VMs data on production with
                      * hosting_id = 24705 and 24706
                      */
+
                     // export tblhosting data
-                    $tblhosting = $db->getQuery(DB_REPO::tb, "id = 24075 or id = 24076", $isDev);
+                    $tblhosting = $db->getQuery(DB_REPO::TBLHOSTING_TABLENAME, "id = 24075 or id = 24076", $isDev);
+                    $csv->exportToCsv(DB_REPO::TBLHOSTING_TABLENAME, $tblhosting);
+
                     // export tblcustomfields
                     // export proxmoxVPS_Users
                     // export proxmoxVPS_IP
