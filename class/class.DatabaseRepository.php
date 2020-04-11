@@ -88,7 +88,7 @@ class DatabaseRepository
 
         // Print all tables that want to migrate
         echo "\n** $date \n";
-        echo "** All tables that will migrate along with csv filename that should be produced: \n\n";
+        echo "** All tables that will migrate along with csv filename that should be produced after exporting data on table: \n\n";
 
         // If dev mode
         if ($dev) {
