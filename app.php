@@ -31,61 +31,66 @@ $db = new Database();
 $csv = new CSV();
 
 // check if mode is development mode
-$isDev = $sys->isDev($arguments['mode']);
+$isDev = $sys->isDev($arguments[$sys::MODE]);
 
 // Show list of tables that will be migrate
 DB_REPO::showListTables($isDev);
 
-// Get arguments
-switch ($arguments['action']) {
 
-    /**
-     * Query and Export process
-     */
-    case DB_REPO::EXPORT:
-        // Check database connection
-        if (!$db->isConnectionError()) {
+// Check database connection
+if (!$db->isConnectionError()) {
+
+    // Choose arguments
+    switch ($arguments[$sys::ACTION]) {
 
             /**
-             * Only test:
-             */
-            // // query get users data
-            // $users = $db->getQuery(DB_REPO::USERS_TABLENAME);
-            // // export data to csv
-            // $csv->exportToCsv(DB_REPO::USERS_TABLENAME, $users);
+         * Query and Export process
+         */
+        case DB_REPO::EXPORT:
+            switch ($arguments[$sys::MODE]) {
+                case $sys::DEVELOPMENT_MODE:
+                    echo "dev";
+                    /**
+                     * DEV MODE
+                     * 
+                     * Here in this example the script will export 2 VMs data on production with
+                     * hosting_id = 24705 and 24706
+                     */
+                    // export tblhosting data
+                    $tblhosting = $db->getQuery(DB_REPO::tb, "id = 24075 or id = 24076", $isDev);
+                    // export tblcustomfields
+                    // export proxmoxVPS_Users
+                    // export proxmoxVPS_IP
+                    // export mg_proxmox_addon_ip
+                    // export mod_proxmox_change_password_log
 
+                    break;
+
+                case $sys::PRODUCTION_MODE:
+                    echo "prod";
+                    /**
+                     * PROD MODE
+                     */
+                    break;
+
+                default:
+                    break;
+            }
+            break;
 
             /**
-             * DEV MODE
+             * Import process
              */
-            // export tblhosting data
-            // $tblhosting = $db->getQuery(DB_REPO::);
-            // export tblcustomfields
-            // export proxmoxVPS_Users
-            // export proxmoxVPS_IP
-            // export mg_proxmox_addon_ip
-            // export mod_proxmox_change_password_log
-            
-            /**
-             * PROD MODE
-             */
+        case DB_REPO::IMPORT:
+            // var_dump($db->runImportData(DB_REPO::USERS_CSV_FILES, DB_REPO::USERS_TABLENAME, DB_REPO::USERS_COLUMNS));
 
-        } else {
+            break;
 
-            // Display error if connection has a problem
-            echo DB_REPO::DB_CONNECTION_PROBLEM;
-        }
+        default:
+            break;
+    }
+} else {
 
-        break;
-
-    /**
-     * Import process
-     */
-    case DB_REPO::IMPORT:
-        // var_dump($db->runImportData(DB_REPO::USERS_CSV_FILES, DB_REPO::USERS_TABLENAME, DB_REPO::USERS_COLUMNS));
-
-        break;
-
-    default:
-        break;
+    // connection problem
+    echo DB_REPO::DB_CONNECTION_PROBLEM . "\n\n";
 }
