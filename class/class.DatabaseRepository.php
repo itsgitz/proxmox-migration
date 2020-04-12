@@ -25,7 +25,10 @@ class DatabaseRepository
      * Existing tables on old Proxmox Addon Module
      */
     const PROXMOXVPS_USERS_TABLENAME = 'proxmoxVPS_Users'; // => ProxmoxAddon_User
+    const PROXMOXVPS_USERS_CSV_FILES = self::STORAGE_DIR . DIRECTORY_SEPARATOR . self::PROXMOXVPS_USERS_TABLENAME . self::CSV_EXTENTIONS;
+
     const PROXMOXVPS_IP_TABLENAME = 'proxmoxVPS_IP'; // => ProxmoxAddon_VmIpAddress
+    const PROXMOXVPS_IP_CSV_FILES = self::STORAGE_DIR . DIRECTORY_SEPARATOR . self::PROXMOXVPS_IP_TABLENAME . self::CSV_EXTENTIONS;
 
     /**
      * tblhosting (only for production to development migration)
