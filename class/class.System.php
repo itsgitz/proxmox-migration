@@ -106,14 +106,15 @@ class System
      * generateLog()
      * 
      * @param string $mode (dev|prod)
+     * @param string $action (export|import)
      * @param mixed $data (as print_r is allowed)
      */
-    public function generateLog($mode, $data)
+    public function generateLog($mode, $action, $data)
     {
         $date = new DateTime();
         $date = $date->format("y-m-d h:i:s");
 
-        $log = "[$mode][$date]: $data \n";
+        $log = "[$mode][$action][$date]: $data \n";
         file_put_contents(
             self::LOGDIR . DIRECTORY_SEPARATOR . self::APP_LOGFILE,
             $log,
