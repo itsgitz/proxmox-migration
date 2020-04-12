@@ -134,8 +134,7 @@ if (isset($arguments)) {
 
                         print_r($csv->exportToCsv($dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $mod_proxmox_change_password_log));
 
-                        sleep(1.5);
-                        echo "[INFO]: Finish ... \n\n";
+                        $sys->showFinisihMessage();
 
 
                         break;
@@ -157,8 +156,7 @@ if (isset($arguments)) {
                         $mg_proxmox_addon_ip = $db->getQuery($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME);
                         print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip));
 
-                        sleep(1.5);
-                        echo "[INFO]: Finish ... \n\n";
+                        $sys->showFinisihMessage();
 
 
                         break;
@@ -180,46 +178,66 @@ if (isset($arguments)) {
                 switch ($arguments[$sys::MODE]) {
                     case $sys::DEVELOPMENT_MODE:
                         // import tblhosting
-                        print_r($db->runImportData(
-                            $dbRepo::TBLHOSTING_CSV_FILES, 
-                            $dbRepo::TBLHOSTING_TABLENAME, 
-                            $dbRepo::TBLHOSTING_COLUMNS
-                        ));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            print_r($db->runImportData(
+                                $dbRepo::TBLHOSTING_CSV_FILES, 
+                                $dbRepo::TBLHOSTING_TABLENAME, 
+                                $dbRepo::TBLHOSTING_COLUMNS
+                            ))
+                        );
 
                         // import tblcustomfieldsvalues
-                        print_r($db->runImportData(
-                            $dbRepo::TBLCUSTOMFIELDSVALUES_CSV_FILES,
-                            $dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME,
-                            $dbRepo::TBLCUSTOMFIELDSVALUES_COLUMNS
-                        ));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            print_r($db->runImportData(
+                                $dbRepo::TBLCUSTOMFIELDSVALUES_CSV_FILES,
+                                $dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME,
+                                $dbRepo::TBLCUSTOMFIELDSVALUES_COLUMNS
+                            ))
+                        );
 
                         // import proxmoxVPS_Users => ProxmoxAddon_User
-                        print_r($db->runImportData(
-                            $dbRepo::PROXMOXVPS_USERS_CSV_FILES,
-                            $dbRepo::PROXMOX_ADDON_USER_TABLENAME,
-                            $dbRepo::PROXMOX_ADDON_USER_COLUMNS
-                        ));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            print_r($db->runImportData(
+                                $dbRepo::PROXMOXVPS_USERS_CSV_FILES,
+                                $dbRepo::PROXMOX_ADDON_USER_TABLENAME,
+                                $dbRepo::PROXMOX_ADDON_USER_COLUMNS
+                            ))
+                        );
 
                         // import proxmoxVPS_IP => ProxmoxAddon_VmIpAddress
-                        print_r($db->runImportData(
-                            $dbRepo::PROXMOXVPS_IP_CSV_FILES,
-                            $dbRepo::PROXMOX_ADDON_VMIPADDRESS_TABLENAME,
-                            $dbRepo::PROXMOX_ADDON_VMIPADDRESS_COLUMNS
-                        ));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            print_r($db->runImportData(
+                                $dbRepo::PROXMOXVPS_IP_CSV_FILES,
+                                $dbRepo::PROXMOX_ADDON_VMIPADDRESS_TABLENAME,
+                                $dbRepo::PROXMOX_ADDON_VMIPADDRESS_COLUMNS
+                            ))
+                        );
 
                         // import mg_proxmox_addon_ip
-                        print_r($db->runImportData(
-                            $dbRepo::MG_PROXMOX_ADDON_IP_CSV_FILES,
-                            $dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME,
-                            $dbRepo::MG_PROXMOX_ADDON_IP_COLUMNS
-                        ));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            print_r($db->runImportData(
+                                $dbRepo::MG_PROXMOX_ADDON_IP_CSV_FILES,
+                                $dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME,
+                                $dbRepo::MG_PROXMOX_ADDON_IP_COLUMNS
+                            ))
+                        );
 
                         // import mod_proxmox_change_password_log
-                        print_r($db->runImportData(
-                            $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_CSV_FILES,
-                            $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME,
-                            $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_COLUMNS
-                        ));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            print_r($db->runImportData(
+                                $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_CSV_FILES,
+                                $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME,
+                                $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_COLUMNS
+                            ))
+                        );
+
+                        $sys->showFinisihMessage();
 
                         break;
 
