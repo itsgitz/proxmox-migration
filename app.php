@@ -14,7 +14,7 @@ require __DIR__ . '/configuration/loader.php';
 use ProxmoxMigration\DB\CSV;
 use ProxmoxMigration\DB\System;
 use ProxmoxMigration\DB\Database;
-use ProxmoxMigration\DB\DatabaseRepository as DB_REPO;
+use ProxmoxMigration\DB\DatabaseRepository;
 
 
 
@@ -34,6 +34,8 @@ if (isset($arguments)) {
     // Define and get a database connection ...
     $db = new Database();
 
+    $dbRepo = new DatabaseRepository();
+
     // Define csv class
     $csv = new CSV();
 
@@ -41,7 +43,7 @@ if (isset($arguments)) {
     $isDev = $sys->isDev($arguments[$sys::MODE]);
 
     // Show list of tables that will be migrate
-    DB_REPO::showListTables($isDev);
+    $dbRepo->showListTables($isDev);
 
 
     // Check database connection
@@ -53,14 +55,14 @@ if (isset($arguments)) {
             /**
              * Query and Export process
              */
-            case DB_REPO::EXPORT:
+            case $dbRepo::EXPORT:
                 switch ($arguments[$sys::MODE]) {
                     case $sys::DEVELOPMENT_MODE:
                         /**
                          * This is only test for exporting data from local database
                          */
-                        // $users = $db->getQuery(DB_REPO::USERS_TABLENAME);
-                        // print_r( $csv->exportToCsv(DB_REPO::USERS_TABLENAME, $users) );
+                        // $users = $db->getQuery($dbRepo->USERS_TABLENAME);
+                        // print_r( $csv->exportToCsv($dbRepo->USERS_TABLENAME, $users) );
 
 
                         /**
@@ -72,31 +74,31 @@ if (isset($arguments)) {
                         echo "[INFO] Running code in development environment ...\n";
                         echo "Note that only one data (VM) will be exported while in development environment\n\n";
 
-                        $where = DB_REPO::generateWhereClauses();
+                        $where = $dbRepo->generateWhereClauses();
 
                         // export tblhosting data
-                        $tblhosting = $db->getQuery(DB_REPO::TBLHOSTING_TABLENAME, $where[DB_REPO::TBLHOSTING_TABLENAME], $isDev);
-                        print_r($csv->exportToCsv(DB_REPO::TBLHOSTING_TABLENAME, $tblhosting));
+                        $tblhosting = $db->getQuery($dbRepo::TBLHOSTING_TABLENAME, $where[$dbRepo::TBLHOSTING_TABLENAME], $isDev);
+                        print_r($csv->exportToCsv($dbRepo::TBLHOSTING_TABLENAME, $tblhosting));
 
                         // export tblcustomfieldsvalues
-                        $tblcustomfieldsvalues = $db->getQuery(DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME, $where[DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME], $isDev);
-                        print_r($csv->exportToCsv(DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME, $tblcustomfieldsvalues));
+                        $tblcustomfieldsvalues = $db->getQuery($dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME, $where[$dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME], $isDev);
+                        print_r($csv->exportToCsv($dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME, $tblcustomfieldsvalues));
 
                         // export proxmoxVPS_Users
-                        $proxmoxVPS_Users = $db->getQuery(DB_REPO::PROXMOXVPS_USERS_TABLENAME, $where[DB_REPO::PROXMOXVPS_USERS_TABLENAME], $isDev);
-                        print_r($csv->exportToCsv(DB_REPO::PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users));
+                        $proxmoxVPS_Users = $db->getQuery($dbRepo->PROXMOXVPS_USERS_TABLENAME, $where[$dbRepo->PROXMOXVPS_USERS_TABLENAME], $isDev);
+                        print_r($csv->exportToCsv($dbRepo->PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users));
 
                         // export proxmoxVPS_IP
-                        $proxmoxVPS_IP = $db->getQuery(DB_REPO::PROXMOXVPS_IP_TABLENAME, $where[DB_REPO::PROXMOXVPS_IP_TABLENAME], $isDev);
-                        print_r($csv->exportToCsv(DB_REPO::PROXMOXVPS_IP_TABLENAME, $proxmoxVPS_IP));
+                        $proxmoxVPS_IP = $db->getQuery($dbRepo::PROXMOXVPS_IP_TABLENAME, $where[$dbRepo::PROXMOXVPS_IP_TABLENAME], $isDev);
+                        print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_IP_TABLENAME, $proxmoxVPS_IP));
 
                         // export mg_proxmox_addon_ip
-                        $mg_proxmox_addon_ip = $db->getQuery(DB_REPO::MG_PROXMOX_ADDON_IP_TABLENAME, $where[DB_REPO::MG_PROXMOX_ADDON_IP_TABLENAME], $isDev);
-                        print_r($csv->exportToCsv(DB_REPO::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip));
+                        $mg_proxmox_addon_ip = $db->getQuery($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $where[$dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME], $isDev);
+                        print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip));
 
                         // export mod_proxmox_change_password_log
-                        $mod_proxmox_change_password_log = $db->getQuery(DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $where[DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME], $isDev);
-                        print_r($csv->exportToCsv(DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $mod_proxmox_change_password_log));
+                        $mod_proxmox_change_password_log = $db->getQuery($dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $where[$dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME], $isDev);
+                        print_r($csv->exportToCsv($dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $mod_proxmox_change_password_log));
 
                         sleep(1.5);
                         echo "[INFO]: Finish ... \n\n";
@@ -119,8 +121,8 @@ if (isset($arguments)) {
                 /**
                  * Import process
                  */
-            case DB_REPO::IMPORT:
-                // var_dump($db->runImportData(DB_REPO::USERS_CSV_FILES, DB_REPO::USERS_TABLENAME, DB_REPO::USERS_COLUMNS));
+            case $dbRepo::IMPORT:
+                // var_dump($db->runImportData($dbRepo->USERS_CSV_FILES, $dbRepo->USERS_TABLENAME, $dbRepo->USERS_COLUMNS));
 
                 break;
 
@@ -130,6 +132,6 @@ if (isset($arguments)) {
     } else {
 
         // connection problem
-        echo DB_REPO::DB_CONNECTION_PROBLEM . "\n\n";
+        echo $dbRepo::DB_CONNECTION_PROBLEM . "\n\n";
     }
 }
