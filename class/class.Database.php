@@ -115,6 +115,9 @@ class Database
             return [
                 "status" => false,
                 "message" => self::ERROR,
+                "filename" => $filename,
+                "table" => $table,
+                "columns" => $columns
             ];
 
         } else {
@@ -123,6 +126,9 @@ class Database
             return [
                 "status" => true,
                 "message" => self::SUCCESS,
+                "filename" => $filename,
+                "table" => $table,
+                "columns" => $columns
             ];
         }
     }
