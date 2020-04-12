@@ -12,14 +12,19 @@ require __DIR__ . '/configuration/loader.php';
 
 
 use ProxmoxMigration\DB\CSV;
+use ProxmoxMigration\DB\System;
 use ProxmoxMigration\DB\Database;
 use ProxmoxMigration\DB\DatabaseRepository as DB_REPO;
-use ProxmoxMigration\DB\System;
 
 
 
 // define system class
 $sys = new System();
+
+// create system directory that contains storage and log directory
+// storage for csv files
+// log for log files
+$sys->createSystemDirectory();
 
 // Check and define arguments
 $arguments = $sys->getArguments($argv);
@@ -43,29 +48,50 @@ if (!$db->isConnectionError()) {
     // Choose arguments
     switch ($arguments[$sys::ACTION]) {
 
-            /**
+        /**
          * Query and Export process
          */
         case DB_REPO::EXPORT:
             switch ($arguments[$sys::MODE]) {
                 case $sys::DEVELOPMENT_MODE:
-                    echo "dev";
+                    /**
+                     * This is only test for exporting data from local database
+                     */
+                    // $users = $db->getQuery(DB_REPO::USERS_TABLENAME);
+                    // print_r( $csv->exportToCsv(DB_REPO::USERS_TABLENAME, $users) );
+
+
                     /**
                      * DEV MODE
                      * 
                      * Here in this example the script will export 2 VMs data on production with
                      * hosting_id = 24705 and 24706
                      */
+                    echo "[INFO] Running code in development environment ...\n\n";
 
                     // export tblhosting data
-                    $tblhosting = $db->getQuery(DB_REPO::TBLHOSTING_TABLENAME, "id = 24075 or id = 24076", $isDev);
-                    $csv->exportToCsv(DB_REPO::TBLHOSTING_TABLENAME, $tblhosting);
+                    $tblhosting = $db->getQuery(DB_REPO::TBLHOSTING_TABLENAME, "id = 24705 OR id = 24706", $isDev);
+                    print_r( $csv->exportToCsv(DB_REPO::TBLHOSTING_TABLENAME, $tblhosting) );
 
-                    // export tblcustomfields
+                    // export tblcustomfieldsvalues
+                    $tblcustomfieldsvalues = $db->getQuery(DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME, "relid = 24705 OR relid = 24706", $isDev);
+                    print_r( $csv->exportToCsv(DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME, $tblcustomfieldsvalues) );
+
                     // export proxmoxVPS_Users
+                    $proxmoxVPS_Users = $db->getQuery(DB_REPO::PROXMOXVPS_USERS_TABLENAME, "hosting_id = 24705 OR hosting_id = 24706", $isDev);
+                    print_r( $csv->exportToCsv(DB_REPO::PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users) );
+
                     // export proxmoxVPS_IP
+                    $proxmoxVPS_IP = $db->getQuery(DB_REPO::PROXMOXVPS_IP_TABLENAME, "hid = 24705 OR hid = 24706", $isDev);
+                    print_r( $csv->exportToCsv(DB_REPO::PROXMOXVPS_IP_TABLENAME, $proxmoxVPS_IP) );
+
                     // export mg_proxmox_addon_ip
+                    $mg_proxmox_addon_ip = $db->getQuery(DB_REPO::MG_PROXMOX_ADDON_IP_TABLENAME, "hosting_id = '24705 OR hosting_id = 24706", $isDev);
+                    print_r( $csv->exportToCsv(DB_REPO::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip) );
+
                     // export mod_proxmox_change_password_log
+                    $mod_proxmox_change_password_log = $db->getQuery(DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, "serviceid = 24705 OR serviceid = 24706", $isDev);
+                    print_r( $csv->exportToCsv(DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $mod_proxmox_change_password_log) );
 
                     break;
 
