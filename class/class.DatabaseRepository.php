@@ -102,4 +102,25 @@ class DatabaseRepository
         echo "- " . self::MG_PROXMOX_ADDON_IP_TABLENAME .  ", '" . self::MG_PROXMOX_ADDON_IP_CSV_FILES . "' \n";
         echo "\n";
     }
+
+    /**
+     * generateWhereClauses
+     * 
+     * Generate where clauses for sql query with given whmcs hosting_id / service_id
+     * 
+     * @return array where clauses for each table
+     */
+    public function generateWhereClauses()
+    {
+        $hosting_id = readline("Please enter Hosting ID: ");
+
+        return [
+            self::TBLHOSTING_TABLENAME => "id = $hosting_id",
+            self::TBLCUSTOMFIELDSVALUES_TABLENAME => "relid = $hosting_id",
+            self::PROXMOXVPS_USERS_TABLENAME => "hosting_id = $hosting_id",
+            self::PROXMOXVPS_IP_TABLENAME => "hid = $hosting_id",
+            self::MG_PROXMOX_ADDON_IP_TABLENAME => "hosting_id = $hosting_id",
+            self::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME => "serviceid = $hosting_id",
+        ];
+    }
 }
