@@ -87,7 +87,11 @@ if (isset($arguments)) {
                             $isDev
                         );
 
-                        print_r($csv->exportToCsv($dbRepo::TBLHOSTING_TABLENAME, $tblhosting));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::TBLHOSTING_TABLENAME, $tblhosting), true)
+                        );
 
                         // export tblcustomfieldsvalues
                         $tblcustomfieldsvalues = $db->getQuery(
@@ -96,7 +100,11 @@ if (isset($arguments)) {
                             $isDev
                         );
 
-                        print_r($csv->exportToCsv($dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME, $tblcustomfieldsvalues));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME, $tblcustomfieldsvalues), true)
+                        );
 
                         // export proxmoxVPS_Users
                         $proxmoxVPS_Users = $db->getQuery(
@@ -105,7 +113,11 @@ if (isset($arguments)) {
                             $isDev
                         );
 
-                        print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users), true)
+                        );
 
                         // export proxmoxVPS_IP
                         $proxmoxVPS_IP = $db->getQuery(
@@ -114,7 +126,11 @@ if (isset($arguments)) {
                             $isDev
                         );
 
-                        print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_IP_TABLENAME, $proxmoxVPS_IP));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_IP_TABLENAME, $proxmoxVPS_IP), true)
+                        );
 
                         // export mg_proxmox_addon_ip
                         $mg_proxmox_addon_ip = $db->getQuery(
@@ -123,7 +139,11 @@ if (isset($arguments)) {
                             $isDev
                         );
 
-                        print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip), true)
+                        );
 
                         // export mod_proxmox_change_password_log
                         $mod_proxmox_change_password_log = $db->getQuery(
@@ -132,7 +152,11 @@ if (isset($arguments)) {
                             $isDev
                         );
 
-                        print_r($csv->exportToCsv($dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $mod_proxmox_change_password_log));
+                        $sys->generateLog(
+                            $sys::DEVELOPMENT_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME, $mod_proxmox_change_password_log), true)
+                        );
 
                         $sys->showFinisihMessage();
 
@@ -146,15 +170,30 @@ if (isset($arguments)) {
                          */
                         // export proxmoxVPS_Users => ProxmoxAddon_User
                         $proxmoxVPS_Users = $db->getQuery($dbRepo::PROXMOXVPS_USERS_TABLENAME);
-                        print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users));
+
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users), true)
+                        );
 
                         // export proxmoxVPS_IP => ProxmoxAddon_VmIpAddress
                         $proxmoxVPS_IP = $db->getQuery($dbRepo::PROXMOXVPS_IP_TABLENAME);
-                        print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_IP_TABLENAME, $proxmoxVPS_IP));
+
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_IP_TABLENAME, $proxmoxVPS_IP), true)
+                        );
 
                         // export mg_proxmox_addon_ip
                         $mg_proxmox_addon_ip = $db->getQuery($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME);
-                        print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip));
+
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip), true)
+                        );
 
                         $sys->showFinisihMessage();
 
@@ -180,6 +219,7 @@ if (isset($arguments)) {
                         // import tblhosting
                         $sys->generateLog(
                             $sys::DEVELOPMENT_MODE,
+                            $dbRepo::IMPORT,
                             print_r($db->runImportData(
                                 $dbRepo::TBLHOSTING_CSV_FILES, 
                                 $dbRepo::TBLHOSTING_TABLENAME, 
@@ -190,6 +230,7 @@ if (isset($arguments)) {
                         // import tblcustomfieldsvalues
                         $sys->generateLog(
                             $sys::DEVELOPMENT_MODE,
+                            $dbRepo::IMPORT,
                             print_r($db->runImportData(
                                 $dbRepo::TBLCUSTOMFIELDSVALUES_CSV_FILES,
                                 $dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME,
@@ -200,6 +241,7 @@ if (isset($arguments)) {
                         // import proxmoxVPS_Users => ProxmoxAddon_User
                         $sys->generateLog(
                             $sys::DEVELOPMENT_MODE,
+                            $dbRepo::IMPORT,
                             print_r($db->runImportData(
                                 $dbRepo::PROXMOXVPS_USERS_CSV_FILES,
                                 $dbRepo::PROXMOX_ADDON_USER_TABLENAME,
@@ -210,6 +252,7 @@ if (isset($arguments)) {
                         // import proxmoxVPS_IP => ProxmoxAddon_VmIpAddress
                         $sys->generateLog(
                             $sys::DEVELOPMENT_MODE,
+                            $dbRepo::IMPORT,
                             print_r($db->runImportData(
                                 $dbRepo::PROXMOXVPS_IP_CSV_FILES,
                                 $dbRepo::PROXMOX_ADDON_VMIPADDRESS_TABLENAME,
@@ -220,6 +263,7 @@ if (isset($arguments)) {
                         // import mg_proxmox_addon_ip
                         $sys->generateLog(
                             $sys::DEVELOPMENT_MODE,
+                            $dbRepo::IMPORT,
                             print_r($db->runImportData(
                                 $dbRepo::MG_PROXMOX_ADDON_IP_CSV_FILES,
                                 $dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME,
@@ -230,6 +274,7 @@ if (isset($arguments)) {
                         // import mod_proxmox_change_password_log
                         $sys->generateLog(
                             $sys::DEVELOPMENT_MODE,
+                            $dbRepo::IMPORT,
                             print_r($db->runImportData(
                                 $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_CSV_FILES,
                                 $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME,
