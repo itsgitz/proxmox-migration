@@ -11,7 +11,7 @@ class CSV
      * 
      * @param string tablename
      * @param array data
-     * @return file
+     * @return array ['filename', 'true']
      * 
      */
     public function exportToCsv($table, $data)
@@ -25,5 +25,17 @@ class CSV
         }
 
         fclose($fp);
+
+        // check if file successfully created (data exported)
+        if (file_exists($filename)) {
+            return [
+                'filename' => $filename,
+                'status' => true,
+            ];
+        } else {
+            return [
+                'status' => false,
+            ];
+        }
     }
 }
