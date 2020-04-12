@@ -3,6 +3,7 @@
 namespace ProxmoxMigration\DB;
 
 use ProxmoxMigration\DB\DatabaseRepository as DB_REPO;
+use ProxmoxMigration\DB\Database as DB;
 
 
 class System
@@ -74,6 +75,27 @@ class System
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * createSystemDirectory()
+     * 
+     */
+    public function createSystemDirectory()
+    {
+        if (!file_exists(DB_REPO::STORAGE_DIR)) {
+            echo "Creating 'storage' directory ... \n\n";
+
+            mkdir(DB_REPO::STORAGE_DIR);
+            sleep(2);
+        }
+
+        if (!file_exists(DB::LOGDIR)) {
+            echo "Creating 'log' directory ... \n\n";
+
+            mkdir(DB::LOGDIR);
+            sleep(2);
         }
     }
 }
