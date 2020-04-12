@@ -114,7 +114,11 @@ class System
         $date = $date->format("y-m-d h:i:s");
 
         $log = "[$mode][$date]: $data \n";
-        file_put_contents(self::APP_LOGFILE, $log, FILE_APPEND);
+        file_put_contents(
+            self::LOGDIR . DIRECTORY_SEPARATOR . self::APP_LOGFILE,
+            $log,
+            FILE_APPEND
+        );
     }
 
     /**
