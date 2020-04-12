@@ -184,7 +184,7 @@ if (isset($arguments)) {
                                 $dbRepo::TBLHOSTING_CSV_FILES, 
                                 $dbRepo::TBLHOSTING_TABLENAME, 
                                 $dbRepo::TBLHOSTING_COLUMNS
-                            ))
+                            ), true)
                         );
 
                         // import tblcustomfieldsvalues
@@ -194,7 +194,7 @@ if (isset($arguments)) {
                                 $dbRepo::TBLCUSTOMFIELDSVALUES_CSV_FILES,
                                 $dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME,
                                 $dbRepo::TBLCUSTOMFIELDSVALUES_COLUMNS
-                            ))
+                            ), true)
                         );
 
                         // import proxmoxVPS_Users => ProxmoxAddon_User
@@ -204,7 +204,7 @@ if (isset($arguments)) {
                                 $dbRepo::PROXMOXVPS_USERS_CSV_FILES,
                                 $dbRepo::PROXMOX_ADDON_USER_TABLENAME,
                                 $dbRepo::PROXMOX_ADDON_USER_COLUMNS
-                            ))
+                            ), true)
                         );
 
                         // import proxmoxVPS_IP => ProxmoxAddon_VmIpAddress
@@ -214,7 +214,7 @@ if (isset($arguments)) {
                                 $dbRepo::PROXMOXVPS_IP_CSV_FILES,
                                 $dbRepo::PROXMOX_ADDON_VMIPADDRESS_TABLENAME,
                                 $dbRepo::PROXMOX_ADDON_VMIPADDRESS_COLUMNS
-                            ))
+                            ), true)
                         );
 
                         // import mg_proxmox_addon_ip
@@ -224,7 +224,7 @@ if (isset($arguments)) {
                                 $dbRepo::MG_PROXMOX_ADDON_IP_CSV_FILES,
                                 $dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME,
                                 $dbRepo::MG_PROXMOX_ADDON_IP_COLUMNS
-                            ))
+                            ), true)
                         );
 
                         // import mod_proxmox_change_password_log
@@ -234,7 +234,7 @@ if (isset($arguments)) {
                                 $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_CSV_FILES,
                                 $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME,
                                 $dbRepo::MOD_PROXMOX_CHANGE_PASSWORD_LOG_COLUMNS
-                            ))
+                            ), true)
                         );
 
                         $sys->showFinisihMessage();
