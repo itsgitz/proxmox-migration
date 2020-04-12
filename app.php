@@ -85,8 +85,8 @@ if (isset($arguments)) {
                         print_r($csv->exportToCsv($dbRepo::TBLCUSTOMFIELDSVALUES_TABLENAME, $tblcustomfieldsvalues));
 
                         // export proxmoxVPS_Users
-                        $proxmoxVPS_Users = $db->getQuery($dbRepo->PROXMOXVPS_USERS_TABLENAME, $where[$dbRepo->PROXMOXVPS_USERS_TABLENAME], $isDev);
-                        print_r($csv->exportToCsv($dbRepo->PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users));
+                        $proxmoxVPS_Users = $db->getQuery($dbRepo::PROXMOXVPS_USERS_TABLENAME, $where[$dbRepo::PROXMOXVPS_USERS_TABLENAME], $isDev);
+                        print_r($csv->exportToCsv($dbRepo::PROXMOXVPS_USERS_TABLENAME, $proxmoxVPS_Users));
 
                         // export proxmoxVPS_IP
                         $proxmoxVPS_IP = $db->getQuery($dbRepo::PROXMOXVPS_IP_TABLENAME, $where[$dbRepo::PROXMOXVPS_IP_TABLENAME], $isDev);
