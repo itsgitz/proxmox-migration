@@ -24,8 +24,8 @@ class DatabaseRepository
     /**
      * Existing tables on old Proxmox Addon Module
      */
-    const PROXMOXVPS_USERS = 'proxmoxVPS_Users'; // => ProxmoxAddon_User
-    const PROXMOXVPS_IP = 'proxmoxVPS_IP'; // => ProxmoxAddon_VmIpAddress
+    const PROXMOXVPS_USERS_TABLENAME = 'proxmoxVPS_Users'; // => ProxmoxAddon_User
+    const PROXMOXVPS_IP_TABLENAME = 'proxmoxVPS_IP'; // => ProxmoxAddon_VmIpAddress
 
     /**
      * tblhosting (only for production to development migration)
@@ -97,8 +97,8 @@ class DatabaseRepository
             echo "- " . self::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME . ", '" . self::MOD_PROXMOX_CHANGE_PASSWORD_LOG_CSV_FILES . "' \n";
         }
 
-        echo "- " . self::PROXMOXVPS_USERS . " => " . self::PROXMOX_ADDON_USER_TABLENAME . ", '" . self::PROXMOX_ADDON_USER_CSV_FILES . "' \n";
-        echo "- " . self::PROXMOXVPS_IP . " => " . self::PROXMOX_ADDON_VMIPADDRESS_TABLENAME . ", '" . self::PROXMOX_ADDON_VMIPADDRESS_CSV_FILES . "' \n";
+        echo "- " . self::PROXMOXVPS_USERS_TABLENAME . " => " . self::PROXMOX_ADDON_USER_TABLENAME . ", '" . self::PROXMOX_ADDON_USER_CSV_FILES . "' \n";
+        echo "- " . self::PROXMOXVPS_IP_TABLENAME . " => " . self::PROXMOX_ADDON_VMIPADDRESS_TABLENAME . ", '" . self::PROXMOX_ADDON_VMIPADDRESS_CSV_FILES . "' \n";
         echo "- " . self::MG_PROXMOX_ADDON_IP_TABLENAME .  ", '" . self::MG_PROXMOX_ADDON_IP_CSV_FILES . "' \n";
         echo "\n";
     }
