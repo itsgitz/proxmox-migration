@@ -85,17 +85,17 @@ class System
     public function createSystemDirectory()
     {
         if (!file_exists(DB_REPO::STORAGE_DIR)) {
-            echo "Creating 'storage' directory ... \n\n";
+            echo "Creating 'storage' directory ... \n";
 
             mkdir(DB_REPO::STORAGE_DIR);
-            sleep(2);
+            sleep(1.5);
         }
 
         if (!file_exists(DB::LOGDIR)) {
-            echo "Creating 'log' directory ... \n\n";
+            echo "Creating 'log' directory ... \n";
 
             mkdir(DB::LOGDIR);
-            sleep(2);
+            sleep(1.5);
         }
     }
 }
