@@ -2,6 +2,8 @@
 
 namespace ProxmoxMigration\DB;
 
+use ProxmoxMigration\DB\System;
+
 /**
  * Note: that this class is only using MySQL as database server
  */
@@ -12,8 +14,6 @@ class Database
     private $username;
     private $password;
 
-    const LOGDIR = './log';
-    const LOGFILE = 'app.log';
     const SUCCESS = 'success';
     const ERROR = 'error';
 
@@ -88,7 +88,7 @@ class Database
     public function runImportData($filename, $table, $columns)
     {
         // define a log file execution
-        $log = self::LOGDIR . DIRECTORY_SEPARATOR . self::LOGFILE;
+        $log = System::LOGDIR . DIRECTORY_SEPARATOR . System::DB_LOGFILE;
 
         // enclosed character for display double quotes as a string
         $enclosedChar = '\\"';

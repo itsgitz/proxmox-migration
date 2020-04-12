@@ -2,8 +2,8 @@
 
 namespace ProxmoxMigration\DB;
 
+use DateTime;
 use ProxmoxMigration\DB\DatabaseRepository as DB_REPO;
-use ProxmoxMigration\DB\Database as DB;
 
 
 class System
@@ -12,6 +12,9 @@ class System
     const MODE = 'mode';
     const DEVELOPMENT_MODE = 'dev';
     const PRODUCTION_MODE = 'prod';
+    const LOGDIR = './log';
+    const DB_LOGFILE = 'db.log';
+    const APP_LOGFILE = 'app.log';
 
     /**
      * getArguments()
@@ -91,11 +94,35 @@ class System
             sleep(1.5);
         }
 
-        if (!file_exists(DB::LOGDIR)) {
+        if (!file_exists(self::LOGDIR)) {
             echo "Creating 'log' directory ... \n";
 
-            mkdir(DB::LOGDIR);
+            mkdir(self::LOGDIR);
             sleep(1.5);
         }
+    }
+
+    /**
+     * generateLog()
+     * 
+     * @param string $mode (dev|prod)
+     * @param mixed $data (as print_r is allowed)
+     */
+    public function generateLog($mode, $data)
+    {
+        $date = new DateTime();
+        $date = $date->format("y-m-d h:i:s");
+
+        $log = "[$mode][$date]: $data \n";
+        file_put_contents(self::APP_LOGFILE, $log, FILE_APPEND);
+    }
+
+    /**
+     * showFinishMessage()
+     */
+    public function showFinisihMessage()
+    {
+        sleep(1.5);
+        echo "[INFO]: Finish ... \n\n";
     }
 }
