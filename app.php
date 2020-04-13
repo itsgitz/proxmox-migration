@@ -215,6 +215,10 @@ if (isset($arguments)) {
                 // var_dump($db->runImportData($dbRepo->USERS_CSV_FILES, $dbRepo->USERS_TABLENAME, $dbRepo->USERS_COLUMNS));
                 
                 switch ($arguments[$sys::MODE]) {
+
+                    /**
+                     * DEV MODE
+                     */
                     case $sys::DEVELOPMENT_MODE:
                         // import tblhosting
                         $sys->generateLog(
@@ -287,6 +291,42 @@ if (isset($arguments)) {
                         break;
 
                     case $sys::PRODUCTION_MODE:
+                        
+                        /**
+                         * PROD MODE
+                         */
+                        // import proxmoxVPS_Users => ProxmoxAddon_User
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::IMPORT,
+                            print_r($db->runImportData(
+                                $dbRepo::PROXMOXVPS_USERS_CSV_FILES,
+                                $dbRepo::PROXMOX_ADDON_USER_TABLENAME,
+                                $dbRepo::PROXMOX_ADDON_USER_COLUMNS
+                            ), true)
+                        );
+
+                        // import proxmoxVPS_IP => ProxmoxAddon_VmIpAddress
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::IMPORT,
+                            print_r($db->runImportData(
+                                $dbRepo::PROXMOXVPS_IP_CSV_FILES,
+                                $dbRepo::PROXMOX_ADDON_VMIPADDRESS_TABLENAME,
+                                $dbRepo::PROXMOX_ADDON_VMIPADDRESS_COLUMNS
+                            ), true)
+                        );
+
+                        // import mg_proxmox_addon_ip
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::IMPORT,
+                            print_r($db->runImportData(
+                                $dbRepo::MG_PROXMOX_ADDON_IP_CSV_FILES,
+                                $dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME,
+                                $dbRepo::MG_PROXMOX_ADDON_IP_COLUMNS
+                            ), true)
+                        );
                         break;
 
                     default:
