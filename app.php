@@ -58,7 +58,7 @@ if (isset($arguments)) {
         // Choose arguments
         switch ($arguments[$sys::ACTION]) {
 
-            /**
+                /**
              * Query and Export process
              */
             case $dbRepo::EXPORT:
@@ -80,7 +80,8 @@ if (isset($arguments)) {
                         echo "[INFO] Running code in development environment for exporting data ...\n";
                         echo "Note that only one data (VM) will be exported while in development environment\n\n";
 
-                        $where = $dbRepo->generateWhereClauses();
+                        $hosting_id = $dbRepo->getHostingId();
+                        $where = $dbRepo->generateWhereClauses($hosting_id);
 
                         // export tblhosting data
                         $tblhosting = $db->getQuery(
@@ -110,8 +111,8 @@ if (isset($arguments)) {
 
                         // export proxmoxVPS_Users
                         $proxmoxVPS_Users = $db->getQuery(
-                            $dbRepo::PROXMOXVPS_USERS_TABLENAME, 
-                            $where[$dbRepo::PROXMOXVPS_USERS_TABLENAME], 
+                            $dbRepo::PROXMOXVPS_USERS_TABLENAME,
+                            $where[$dbRepo::PROXMOXVPS_USERS_TABLENAME],
                             $isDev
                         );
 
@@ -123,8 +124,8 @@ if (isset($arguments)) {
 
                         // export proxmoxVPS_IP
                         $proxmoxVPS_IP = $db->getQuery(
-                            $dbRepo::PROXMOXVPS_IP_TABLENAME, 
-                            $where[$dbRepo::PROXMOXVPS_IP_TABLENAME], 
+                            $dbRepo::PROXMOXVPS_IP_TABLENAME,
+                            $where[$dbRepo::PROXMOXVPS_IP_TABLENAME],
                             $isDev
                         );
 
@@ -136,8 +137,8 @@ if (isset($arguments)) {
 
                         // export mg_proxmox_addon_ip
                         $mg_proxmox_addon_ip = $db->getQuery(
-                            $dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, 
-                            $where[$dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME], 
+                            $dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME,
+                            $where[$dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME],
                             $isDev
                         );
 
@@ -210,18 +211,18 @@ if (isset($arguments)) {
                 }
                 break;
 
-            /**
-             * Import process
-             */
+                /**
+                 * Import process
+                 */
             case $dbRepo::IMPORT:
                 /**
                  * This is only test for exporting data from local database
                  */
                 // var_dump($db->runImportData($dbRepo->USERS_CSV_FILES, $dbRepo->USERS_TABLENAME, $dbRepo->USERS_COLUMNS));
-                
+
                 switch ($arguments[$sys::MODE]) {
 
-                    /**
+                        /**
                      * DEV MODE
                      */
                     case $sys::DEVELOPMENT_MODE:
@@ -234,8 +235,8 @@ if (isset($arguments)) {
                             $sys::DEVELOPMENT_MODE,
                             $dbRepo::IMPORT,
                             print_r($db->runImportData(
-                                $dbRepo::TBLHOSTING_CSV_FILES, 
-                                $dbRepo::TBLHOSTING_TABLENAME, 
+                                $dbRepo::TBLHOSTING_CSV_FILES,
+                                $dbRepo::TBLHOSTING_TABLENAME,
                                 $dbRepo::TBLHOSTING_COLUMNS
                             ), true)
                         );
@@ -300,7 +301,7 @@ if (isset($arguments)) {
                         break;
 
                     case $sys::PRODUCTION_MODE:
-                        
+
                         /**
                          * PROD MODE
                          */
@@ -340,11 +341,34 @@ if (isset($arguments)) {
                                 $dbRepo::MG_PROXMOX_ADDON_IP_COLUMNS
                             ), true)
                         );
+
                         break;
 
                     default:
                         break;
                 }
+
+                break;
+
+            /**
+            * ROLLBACK ACTION
+            */
+            case $dbRepo::ROLLBACK:
+
+                /**
+                 * Only DEVELOPMENT MODE
+                 */
+                case $sys::DEVELOPMENT_MODE:
+                    $hosting_id = $dbRepo->getHostingId();
+
+                    $sys->generateLog(
+                        $sys::DEVELOPMENT_MODE,
+                        $dbRepo::ROLLBACK,
+                        print_r($db->rollBackData($hosting_id), true)
+                    );
+
+                    $sys->showFinisihMessage();
+                    break;
 
                 break;
 
