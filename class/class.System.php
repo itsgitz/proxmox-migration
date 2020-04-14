@@ -33,7 +33,7 @@ class System
              */
             echo "[ERROR]: Incomplete arguments! \n\n";
             echo "[Usage]: php -q app.php [action] [mode] \n\n";
-            echo "* action: export|import \n";
+            echo "* action: export|import|rollback \n";
             echo "* mode: dev|prod \n";
             echo "\n";
 
@@ -46,9 +46,9 @@ class System
         $action = $argv[1];
         $mode = $argv[2];
         
-        if (strcmp($action, DB_REPO::EXPORT) != 0 && strcmp($action, DB_REPO::IMPORT) != 0) {
+        if (strcmp($action, DB_REPO::EXPORT) != 0 && strcmp($action, DB_REPO::IMPORT) != 0 && strcmp($action, DB_REPO::ROLLBACK)) {
             echo "[ERROR]: Invalid arguments (action)! \n\n";
-            echo "It should be export or import\n\n";
+            echo "It should be export, import, or rollback\n\n";
             die();
         } 
 
