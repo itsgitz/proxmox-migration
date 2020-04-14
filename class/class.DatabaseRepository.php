@@ -11,6 +11,7 @@ class DatabaseRepository
      * */ 
     const IMPORT = 'import';
     const EXPORT = 'export';
+    const ROLLBACK = 'rollback';
     const STORAGE_DIR = './storage';
     const CSV_EXTENTIONS = '.csv';
 
@@ -107,13 +108,28 @@ class DatabaseRepository
     }
 
     /**
+     * getHostingId()
+     * 
+     * Get hosting_id from user input (prompt)
+     * 
+     * @return int|string $hosting_id
+     */
+    public function getHostingId()
+    {
+        $hosting_id = readline("Please enter Hosting ID: ");
+
+        return $hosting_id;
+    }
+
+    /**
      * generateWhereClauses
      * 
      * Generate where clauses for sql query with given whmcs hosting_id / service_id
      * 
+     * @param int|string $hosting_id
      * @return array where clauses for each table
      */
-    public function generateWhereClauses()
+    public function generateWhereClauses($hosting_id)
     {
         $hosting_id = readline("Please enter Hosting ID: ");
 
