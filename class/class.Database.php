@@ -3,6 +3,8 @@
 namespace ProxmoxMigration\DB;
 
 use ProxmoxMigration\DB\System;
+use ProxmoxMigration\DB\DatabaseRepository as DB_REPO;
+
 
 /**
  * Note: that this class is only using MySQL as database server
@@ -131,5 +133,49 @@ class Database
                 "columns" => $columns
             ];
         }
+    }
+
+    /**
+     * rollBackData()
+     * 
+     * Rollback data migration in development environment. Delete data that had been migrated before
+     * 
+     * @param string $hosting_id hosting_id
+     * @return array $table_data
+     */
+    public function rollBackData($hosting_id)
+    {
+        /**
+         * Define delete query for rollback data where id = given hosting_id
+         */
+        
+        // tblhosting
+        $tblhosting = "DELETE FROM " . DB_REPO::TBLHOSTING_TABLENAME . " WHERE id = $hosting_id";
+
+        // tblcustomfieldsvalues
+        $tblcustomfieldsvalues = "DELETE FROM " . DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME . " WHERE relid = $hosting_id";
+
+        // ProxmoxAddon_User
+        $proxmoxAddonUser = "DELETE FROM ". DB_REPO::PROXMOX_ADDON_USER_TABLENAME . " WHERE hosting_id = $hosting_id";
+
+        // ProxmoxAddon_VmIpAddress
+        $proxmoxAddonVmIpAddress = "DELETE FROM " . DB_REPO::PROXMOX_ADDON_VMIPADDRESS_TABLENAME . " WHERE hosting_id = $hosting_id";
+
+        // mg_proxmox_addon_ip
+        $mgProxmoxAddonIp = "DELETE FROM " . DB_REPO::MG_PROXMOX_ADDON_IP_TABLENAME . " WHERE hosting_id = $hosting_id";
+
+        // mod_proxmox_change_password_log
+        $modProxmoxChangePasswordLog = "DELETE FROM " . DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME . " WHERE serviceid = $hosting_id";
+
+        $result = [
+            DB_REPO::TBLHOSTING_TABLENAME => $this->getConnection()->query($tblhosting),
+            DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME => $this->getConnection()->query($tblcustomfieldsvalues),
+            DB_REPO::PROXMOX_ADDON_USER_TABLENAME => $this->getConnection()->query($proxmoxAddonUser),
+            DB_REPO::PROXMOX_ADDON_VMIPADDRESS_TABLENAME => $this->getConnection()->query($proxmoxAddonVmIpAddress),
+            DB_REPO::MG_PROXMOX_ADDON_IP_TABLENAME => $this->getConnection()->query($mgProxmoxAddonIp),
+            DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME => $this->getConnection()->query($modProxmoxChangePasswordLog),
+        ];
+
+        return $result;
     }
 }
