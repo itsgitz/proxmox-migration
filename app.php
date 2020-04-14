@@ -77,7 +77,7 @@ if (isset($arguments)) {
                          * Here in this example the script will export 2 VMs data on production with
                          * hosting_id = 24705 and 24706
                          */
-                        echo "[INFO] Running code in development environment ...\n";
+                        echo "[INFO] Running code in development environment for exporting data ...\n";
                         echo "Note that only one data (VM) will be exported while in development environment\n\n";
 
                         $where = $dbRepo->generateWhereClauses();
@@ -171,6 +171,9 @@ if (isset($arguments)) {
                          * PROD MODE
                          */
                         // export proxmoxVPS_Users => ProxmoxAddon_User
+                        echo "[INFO] Running code in production environment for exporting data ...\n";
+                        echo "All VMs will be exported \n\n";
+
                         $proxmoxVPS_Users = $db->getQuery($dbRepo::PROXMOXVPS_USERS_TABLENAME);
 
                         $sys->generateLog(
@@ -222,6 +225,10 @@ if (isset($arguments)) {
                      * DEV MODE
                      */
                     case $sys::DEVELOPMENT_MODE:
+
+                        echo "[INFO] Running code in development environment for importing data ...\n";
+                        echo "Note that only one data (VM) will be imported while in development environment\n\n";
+
                         // import tblhosting
                         $sys->generateLog(
                             $sys::DEVELOPMENT_MODE,
@@ -297,6 +304,10 @@ if (isset($arguments)) {
                         /**
                          * PROD MODE
                          */
+
+                        echo "[INFO] Running code in development environment for importing data ...\n";
+                        echo "All VMs will be imported \n\n";
+
                         // import proxmoxVPS_Users => ProxmoxAddon_User
                         $sys->generateLog(
                             $sys::PRODUCTION_MODE,
