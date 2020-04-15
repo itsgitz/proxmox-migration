@@ -171,10 +171,10 @@ if (isset($arguments)) {
                         /**
                          * PROD MODE
                          */
-                        // export proxmoxVPS_Users => ProxmoxAddon_User
                         echo "[INFO] Running code in production environment for exporting data ...\n";
                         echo "All VMs will be exported \n\n";
 
+                        // export proxmoxVPS_Users => ProxmoxAddon_User
                         $proxmoxVPS_Users = $db->getQuery($dbRepo::PROXMOXVPS_USERS_TABLENAME);
 
                         $sys->generateLog(
@@ -201,6 +201,7 @@ if (isset($arguments)) {
                             print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip), true)
                         );
 
+                        // export mg_proxmox_vmranges
                         $mg_proxmox_vmranges = $db->getQuery($dbRepo::MG_PROXMOX_VMRANGES_TABLENAME);
 
                         $sys->generateLog(
