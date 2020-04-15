@@ -19,7 +19,7 @@ class CSV
         $filename = DB_REPO::STORAGE_DIR . DIRECTORY_SEPARATOR . $table . DB_REPO::CSV_EXTENTIONS;
         $fp = fopen($filename, 'w');
 
-        // fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
         // insert into csv file
         foreach ($data as $d) {
