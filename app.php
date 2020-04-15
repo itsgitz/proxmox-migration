@@ -357,7 +357,7 @@ if (isset($arguments)) {
                             print_r($db->runImportData(
                                 $dbRepo::MG_PROXMOX_VMRANGES_CSV_FILES,
                                 $dbRepo::MG_PROXMOX_VMRANGES_TABLENAME,
-                                $dbRepo::MG_PROXMOX_VMRANGES_COLUMNS,
+                                $dbRepo::MG_PROXMOX_VMRANGES_COLUMNS
                             ), true)
                         );
 
