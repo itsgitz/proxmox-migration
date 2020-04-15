@@ -168,6 +168,7 @@ class Database
         $modProxmoxChangePasswordLog = "DELETE FROM " . DB_REPO::MOD_PROXMOX_CHANGE_PASSWORD_LOG_TABLENAME . " WHERE serviceid = $hosting_id";
 
         $result = [
+            "hosting_id" => $hosting_id,
             DB_REPO::TBLHOSTING_TABLENAME => $this->getConnection()->query($tblhosting),
             DB_REPO::TBLCUSTOMFIELDSVALUES_TABLENAME => $this->getConnection()->query($tblcustomfieldsvalues),
             DB_REPO::PROXMOX_ADDON_USER_TABLENAME => $this->getConnection()->query($proxmoxAddonUser),
