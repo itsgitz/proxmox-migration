@@ -359,6 +359,9 @@ if (isset($arguments)) {
                  * Only DEVELOPMENT MODE
                  */
                 case $sys::DEVELOPMENT_MODE:
+                    echo "[INFO]: Running code in development environment for rollback all imported data ... \n";
+                    echo "This action can run only in dev mode. \n\n";
+
                     $hosting_id = $dbRepo->getHostingId();
 
                     $sys->generateLog(
