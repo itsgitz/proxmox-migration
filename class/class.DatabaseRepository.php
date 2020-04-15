@@ -131,8 +131,6 @@ class DatabaseRepository
      */
     public function generateWhereClauses($hosting_id)
     {
-        $hosting_id = readline("Please enter Hosting ID: ");
-
         return [
             self::TBLHOSTING_TABLENAME => "id = $hosting_id",
             self::TBLCUSTOMFIELDSVALUES_TABLENAME => "relid = $hosting_id",
