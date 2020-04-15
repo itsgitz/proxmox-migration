@@ -201,6 +201,14 @@ if (isset($arguments)) {
                             print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_ADDON_IP_TABLENAME, $mg_proxmox_addon_ip), true)
                         );
 
+                        $mg_proxmox_vmranges = $db->getQuery($dbRepo::MG_PROXMOX_VMRANGES_TABLENAME);
+
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::EXPORT,
+                            print_r($csv->exportToCsv($dbRepo::MG_PROXMOX_VMRANGES_TABLENAME, $mg_proxmox_vmranges), true)
+                        );
+
                         $sys->showFinisihMessage();
 
 
@@ -341,6 +349,18 @@ if (isset($arguments)) {
                                 $dbRepo::MG_PROXMOX_ADDON_IP_COLUMNS
                             ), true)
                         );
+
+                        $sys->generateLog(
+                            $sys::PRODUCTION_MODE,
+                            $dbRepo::IMPORT,
+                            print_r($db->runImportData(
+                                $dbRepo::MG_PROXMOX_VMRANGES_CSV_FILES,
+                                $dbRepo::MG_PROXMOX_VMRANGES_TABLENAME,
+                                $dbRepo::MG_PROXMOX_VMRANGES_COLUMNS,
+                            ), true)
+                        );
+
+                        $sys->showFinisihMessage();
 
                         break;
 

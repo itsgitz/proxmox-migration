@@ -73,6 +73,13 @@ class DatabaseRepository
     const MG_PROXMOX_ADDON_IP_COLUMNS = '(id,ip,type,mac_address,subnet_mask,gateway,cidr,sid,visualization,last_check,private,hosting_id,trunks,tag,node)';
     const MG_PROXMOX_ADDON_IP_CSV_FILES = self::STORAGE_DIR . DIRECTORY_SEPARATOR . self::MG_PROXMOX_ADDON_IP_TABLENAME . self::CSV_EXTENTIONS;
 
+    /**
+     * mg_proxmox_vmranges
+     */
+    const MG_PROXMOX_VMRANGES_TABLENAME = 'mg_proxmox_vmranges';
+    const MG_PROXMOX_VMRANGES_COLUMNS = '(server_id,vmid_from,vmid_to)';
+    const MG_PROXMOX_VMRANGES_CSV_FILES = self::STORAGE_DIR . DIRECTORY_SEPARATOR . self::MG_PROXMOX_VMRANGES_TABLENAME . self::CSV_EXTENTIONS;
+
     /* Users table, only for testing on local database server */
     const USERS_TABLENAME = 'users';
     const USERS_COLUMNS = '(id,created_at,updated_at,deleted_at,username,name,password,role,job_title)';
@@ -104,6 +111,7 @@ class DatabaseRepository
         echo "- " . self::PROXMOXVPS_USERS_TABLENAME . " => " . self::PROXMOX_ADDON_USER_TABLENAME . ", '" . self::PROXMOX_ADDON_USER_CSV_FILES . "' \n";
         echo "- " . self::PROXMOXVPS_IP_TABLENAME . " => " . self::PROXMOX_ADDON_VMIPADDRESS_TABLENAME . ", '" . self::PROXMOX_ADDON_VMIPADDRESS_CSV_FILES . "' \n";
         echo "- " . self::MG_PROXMOX_ADDON_IP_TABLENAME .  ", '" . self::MG_PROXMOX_ADDON_IP_CSV_FILES . "' \n";
+        echo "- " . self::MG_PROXMOX_VMRANGES_TABLENAME .  ", '" . self::MG_PROXMOX_VMRANGES_CSV_FILES . "' \n";
         echo "\n";
     }
 
