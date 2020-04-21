@@ -2,50 +2,118 @@
 
 namespace ProxmoxMigration\DB;
 
+use ProxmoxMigration\DB\System;
+
+
+
 class WhmcsApi
 {
-    private $identifier;
-    private $secret;
-    private $url;
+    private $devIdentifier;
+    private $devSecret;
+    private $devUrl;
+    private $prodIdentifier;
+    private $prodSecret;
+    private $prodUrl;
 
+    const RESPONSE_TYPE = 'responsetype';
     const JSON = 'json';
     const ENCRYPT_PASSWORD = 'EncryptPassword';
     const DECRYPT_PASSWORD = 'DecryptPassword';
+    const ENCRYPT_ARGUMENT = 'encrypt';
+    const DECRYPT_ARGUMENT = 'decrypt';
 
     public function __construct()
     {
-        $this->identifier = getenv('WHMCS_API_IDENTIFIER');
-        $this->secret = getenv('WHMCS_API_SECRET');
-        $this->url = getenv('WHMCS_API_URL');
+        /**
+         * Dev mode
+         */
+        $this->devIdentifier = getenv('DEV_WHMCS_API_IDENTIFIER');
+        $this->devSecret = getenv('DEV_WHMCS_API_SECRET');
+        $this->devUrl = getenv('DEV_WHMCS_API_URL');
+
+        /**
+         * Prod mode
+         */
+        $this->prodIdentifier = getenv('PROD_WHMCS_API_IDENTIFIER');
+        $this->prodSecret = getenv('PROD_WHMCS_API_SECRET');
+        $this->prodUrl = getenv('PROD_WHMCS_API_URL');
     }
 
-    public function getApiIdentifier()
+    public function getDevApiIdentifier()
     {
-        return $this->identifier;
+        return $this->devIdentifier;
     }
 
-    public function getApiSecret()
+    public function getDevApiSecret()
     {
-        return $this->secret;
+        return $this->devSecret;
     }
 
-    public function getApiUrl()
+    public function getDevApiUrl()
     {
-        return $this->url;
+        return $this->devUrl;
     }
 
-    public function sendApiRequest($action, $password)
+    public function getProdApiIdentifier()
     {
-        $query = [
+        return $this->prodIdentifier;
+    }
+
+    public function getProdApiSecret()
+    {
+        return $this->prodSecret;
+    }
+
+    public function getProdApiUrl()
+    {
+        return $this->prodUrl;
+    }
+
+    private function setDevApiRequest($action, $password)
+    {
+        return [
             'action' => $action,
-            'username' => $this->identifier,
-            'password' => $this->secret,
-            'responsetype' => self::JSON,
+            'username' => $this->devIdentifier,
+            'password' => $this->devSecret,
+            self::RESPONSE_TYPE => self::JSON,
             'password2' => $password
         ];
+    }
+
+    private function setProdApiRequest($action, $password)
+    {
+        return [
+            'action' => $action,
+            'username' => $this->prodIdentifier,
+            'password' => $this->prodSecret,
+            self::RESPONSE_TYPE => self::JSON,
+            'password2' => $password,
+        ];
+    }
+
+    public function sendApiRequest($action, $mode, $password)
+    {
+        $query = [];
+
+        switch ($mode) {
+
+            case System::DEVELOPMENT_MODE:
+                $url = $this->devUrl;
+                $query = $this->setDevApiRequest($action, $password);
+                break;
+
+            case System::PRODUCTION_MODE:
+                $url = $this->prodUrl;
+                $query = $this->setProdApiRequest($action, $password);
+                break;
+
+            default:
+                break;
+
+        }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->url);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($query));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -54,6 +122,6 @@ class WhmcsApi
 
         curl_close($ch);
 
-        print_r($response);
+        return $response;
     }
 }
