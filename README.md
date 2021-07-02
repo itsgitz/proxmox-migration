@@ -2,7 +2,7 @@
 
 This is program/script that created for WHMCS Proxmox Addon Module data migration with PHP. It's migrate data from old Proxmox Addon Module version (v2.5) to new module version (v2.7.3).
 
-# Why did I create this script for?
+# What is it?
 
 Old version of Proxmox Addon module and new or current version has difference data table structure, such as difference table name and column name, but has similiar values. So I create this PHP script for auto migration.
 
