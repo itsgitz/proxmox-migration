@@ -1,6 +1,6 @@
 # Proxmox Data Migration Script
 
-This is program/script that created for WHMCS Proxmox Addon Module data migration with PHP. It's migrate data from old Proxmox Addon Module version (v2.5) to new module version (v2.7.3).
+This is program/script that created for WHMCS Proxmox Addon Module data migration with PHP. This migrates data from old Proxmox Addon Module version (v2.5) to new module version (v2.7.3).
 
 # What is it?
 
